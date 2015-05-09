@@ -30,7 +30,7 @@ gem "pry"
 gem "hirb"
 
 group :test do
-  gem "database-cleaner"
+  gem "database_cleaner"
   gem "timecop"
   gem "pry-byebug"
 end
