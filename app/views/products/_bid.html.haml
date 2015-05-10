@@ -1,6 +1,7 @@
 -unless @product.has_auction? == false
     -if @product.auction.ended?
         = render "auctions/status"
+        
     -else
         =form_for [@product, @product.auction, Bid.new] do |f|
             %p

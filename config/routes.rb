@@ -4,6 +4,12 @@ Rails.application.routes.draw do
     resources :auctions, only: [ :create ] do
       resources :bids, only: [ :create  ]
     end
+    member do
+      put :transfer
+    end
+    # radimo put, zato sto samo zelimo da promenimo unos u bazu, a ne da ga retrivujemo ili nesto drugo
+    # a transfer ga zovemo jer zelimo da promenimo ownership productu
+    # sledece sto treba je da promenimo products kontroler da uzme ovo u obzir
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -60,6 +60,20 @@ class ProductsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def transfer
+    
+      product = Product.find params[:id] # ovaj :id imamo u params hashu
+      
+      if product.auction.ended? # da ne bi moglo da se posalje veci bid nakon zavrsetka aukcije
+           product.update_attribute :user_id, product.auction.top_bid.user_id # lep nacin da dodjemo do id-a pobednika
+           redirect_to product, notice: "Uspesno je preneto vlasnistvo nad proizvodom"
+      else
+            redirect_to product, alert: "Aukcija jos nije zavrsena!"
+      end
+      
+     
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
