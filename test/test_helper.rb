@@ -11,7 +11,7 @@ end
 
 DatabaseCleaner.strategy = :truncation
 
-class Minitest::TestCase
+class MiniTest::TestCase
   def setup
     DatabaseCleaner.start
   end
