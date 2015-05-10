@@ -24,9 +24,13 @@ class PlaceBidTest < MiniTest::Test
         assert_equal 11, auction.current_bid
     end
     
-    def test_fails_to_place_bid_inder_current_value
-    
-    
+    def test_fails_to_place_bid_under_current_value
+        service = PlaceBid.new(
+            value: 9,
+            user_id: anotheruser.id,
+            auction_id: auction.id
+            ) # da ne moze sa manjim iznosom
+    refute service.execute, "Bid should not be placed"
     end
     
     private
