@@ -1,0 +1,10 @@
+=form_for [@product, @product.auction, Bid.new] do |f|
+    %p
+        %strong
+        Current bid:
+        =@product.auction.current_bid
+        -# ovime se top_bid metod relatuje na auction a ne na product sto i ima smisla
+    %p
+        =f.text_field :value 
+        -# ovaj value se odnosi na bid, ne na auction
+        =f.button
