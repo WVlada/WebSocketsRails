@@ -1,11 +1,21 @@
 -unless @product.has_auction? == false
-    =form_for [@product, @product.auction, Bid.new] do |f|
-        %p
-            %strong
-            Current bid:
-            =@product.auction.current_bid
-            -# ovime se top_bid metod relatuje na auction a ne na product sto i ima smisla
-        %p
-            =f.text_field :value 
-            -# ovaj value se odnosi na bid, ne na auction
-            =f.button
+    -if @product.auction.ended?
+        = render "auctions/status"
+    -else
+        =form_for [@product, @product.auction, Bid.new] do |f|
+            %p
+                %strong
+                    -if @product.auction.top_bid.user_id == current_user.id
+                        Current bid:
+                    -else
+                        You were outbid:
+                    =@product.auction.current_bid
+                    -# ovime se top_bid metod relatuje na auction a ne na product sto i ima smisla
+            
+            %p
+                Ends at: #{l(@product.auction.ends_at, format: :short)}
+            
+            %p
+                =f.text_field :value 
+                -# ovaj value se odnosi na bid, ne na auction
+                =f.button class: "btn btn-primary"

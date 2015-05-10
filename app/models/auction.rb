@@ -13,4 +13,9 @@ class Auction < ActiveRecord::Base
     top_bid.nil? ? value : top_bid.value
     # ako je value nil, idemo na inicijalnu vrednost, ako nije, idemo na top vrednost
   end
+  
+  def ended?
+    ends_at < Time.now
+    # atribut je samo ends_at bez znaka pitanja
+  end
 end
