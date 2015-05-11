@@ -71,7 +71,7 @@ AuctionSocket.prototype.underbid = function(value) {
         );
 };
 
-AuctionSocket.prototype.underbid = function(value) {
+AuctionSocket.prototype.outbid = function(value) {
     this.form.find(".message strong").html(
         "Your were outbid. It is now " + value + "."
         );

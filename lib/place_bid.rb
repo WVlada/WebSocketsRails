@@ -1,6 +1,8 @@
 class PlaceBid
 # ova klasa treba da hendluje svu logiku o postavljanju bidova
     
+    attr_reader :auction
+    #na ovaj nacin ce biti public za napolje
     
     def initialize options
         @value = options[:value].to_f
@@ -9,7 +11,8 @@ class PlaceBid
     end
     
     def execute
-        auction = Auction.find @auction_id
+        @auction = Auction.find @auction_id
+        #na ovaj nacin ce biti public za napolje
         
         if @value <= auction.current_bid
         return false

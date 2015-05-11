@@ -50,9 +50,13 @@ class AuctionSocket
     
     def bid socket, tokens
         service = PlaceBid.new(auction_id: tokens[0], user_id: tokens[1], value: tokens[2] ) 
-        service.execute
-        # sad kao sve se zavrsi u redu, i saljemo bidok poruku
-        socket.send "bidok"
+        
+        if service.execute
+            socket.send "bidok"
+        else
+            socket.send "underbid #{service.auction.current_bid}" #ovo je njegov workaround. ali ne mogu istu foru da uradim za bidok!
+            # i moramo da obezbedimo da je auction dostupan
+        end
     end
     
     def socket_request?
