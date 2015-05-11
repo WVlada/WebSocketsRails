@@ -33,6 +33,7 @@ class PlaceBidTest < MiniTest::Test
     refute service.execute, "Bid should not be placed"
     end
     
+    
     private
     
     attr_reader :user, :anotheruser, :product, :auction
