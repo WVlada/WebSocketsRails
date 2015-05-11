@@ -1,6 +1,9 @@
 require File.expand_path('../boot', __FILE__)
+require File.expand_path('../../lib/auction_socket.rb', __FILE__)
 
 require 'rails/all'
+#require 'lib/auction_socket'
+# ovakav NE RADI!!!
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -23,5 +26,8 @@ module Auctions
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     config.sass.prefered_syntax = :sass
+    config.middleware.use AuctionSocket
+    # njemu je pre ovog Firebug u Firefoxu prikazivao da ne moze da ostvari vezu sa serverom
+    # meni nista ne prikazuje, mozda je to do clou9?
   end
 end

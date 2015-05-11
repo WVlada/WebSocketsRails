@@ -24,17 +24,17 @@
                 -# ovaj value se odnosi na bid, ne na auction
                 =f.button class: "btn btn-primary"
 -# znaci ovo se ucitava na kraju stranice
-    :javascript    
-        $(function(){
-            var user_id = "#{current_user.id}";
-            var auction_id = "#{@product.auction.id}";
-            var form = $("#new_bid");
-            
-            var AuctionSocket = new AuctionSocket(
-                    user_id,
-                    auction_id,
-                    form
-                );
-            }
-        );
+
+:javascript    
+    $(function(){
+        var user_id = "#{current_user.id}";
+        var auction_id = "#{@product.auction.id}";
+        var form = $("#new_bid");
         
+        var auctionSocket = new AuctionSocket(
+                user_id,
+                auction_id,
+                form
+            );
+        }
+    );

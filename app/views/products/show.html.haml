@@ -13,5 +13,7 @@
 
 :javascript
     App = {
-        websocket_url: "ws://#{request.host}:#{request.port}"
+        websocket_url: "wss://#{request.host}:#{request.port}/"
     };
+-# morao sam dodati s inace mi je javljao gresku da ne moze da ostvari unsecured connection, na sajt do koga je dosao preko secured connectionna, tj. preko https-auction
+-# njemu to nije pokazivao verovatno jer je radio na localhostu
