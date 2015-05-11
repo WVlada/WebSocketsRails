@@ -54,11 +54,16 @@ AuctionSocket.prototype.sendBid = function(value) {
 };
 // .message <div> sa strong tagom
 // a sada odgovori:
+// da bi ovo radilo, morao sam paragrafu u _bid.haml da dam klasu message, kao sto ovde i pise
 AuctionSocket.prototype.bid = function() {
+    var x = document.getElementById("bid_value").value;
+// ovo je MOJ WORKAROUND, jer nece da radi onako kako njemu radi, tj. this.value - je UNDEFINED!
     this.form.find(".message strong").html(
-        "Your bid: " + this.value
+        "Your bid: " + x
         );
 };
+// @value - mnogo je bitno sto sam ovo promenio - negde sam izgleda njega preskocio u pracenju....
+// kod njega je to samo obican value. NE MOZE - NE DA MI SOCKET VEZU !!!!
 
 AuctionSocket.prototype.underbid = function(value) {
     this.form.find(".message strong").html(

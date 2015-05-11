@@ -1,5 +1,7 @@
 class PlaceBid
-# ova klasa treba da hendluje svu logiku o postavljanju bidova    
+# ova klasa treba da hendluje svu logiku o postavljanju bidova
+    
+    
     def initialize options
         @value = options[:value].to_f
         @user_id = options[:user_id]
@@ -21,4 +23,5 @@ class PlaceBid
             return false
         end
     end
+   
 end
