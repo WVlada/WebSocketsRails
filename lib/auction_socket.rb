@@ -6,7 +6,8 @@ class AuctionSocket
     def initialize app
     
         @app = app
-        
+        @clients = []
+        #lista klijenata, u koju cemo ubacivati sockete kako se otvaraju
     end
     
     def call env 
@@ -14,6 +15,7 @@ class AuctionSocket
         @env = env
         if socket_request?
             socket = spawn_socket
+            @clients << socket
             return socket.rack_response
         else
             @app.call env
@@ -53,12 +55,19 @@ class AuctionSocket
         
         if service.execute
             socket.send "bidok"
+            notify_outbids socket, tokens[2] # socket ubacujemo kao argument, da bi smo njega izfiltrilari, a ostale obavestili
         else
             socket.send "underbid #{service.auction.current_bid}" #ovo je njegov workaround. ali ne mogu istu foru da uradim za bidok!
             # i moramo da obezbedimo da je auction dostupan
         end
     end
-    
+
+    def notify_outbids socket, value 
+        @clients.reject {|client| client == socket}.each do |client|
+        client.send "outbid #{value}"
+        end
+    end
+
     def socket_request?
         Faye::WebSocket.websocket? env 
         # proveravamo da li je request tipa websocket
