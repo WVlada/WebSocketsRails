@@ -10,18 +10,8 @@ class AuctionSocket
         # ovo je ENV koja prolazi kroz midleware
         @env = env
         if socket_request?
-            socket = Faye::WebSocket.new env
-            # meni ne pravi gresku bez obzira sto nisam imao env kao parametar
-            # reseno: nije mi pravio gresku verovatno jer nisam ni bio povezan za websocketom
-            # jer mi nije ni akctivan sve vreme ovaj middleware
-            # zato i nemam Hello poruku na stranici....
-            
-            socket.on :open do ||
-                    socket.send "Hello"
-            end
-            
+            socket = spawn_socket
             return socket.rack_response
-            
         else
             @app.call env
         end
@@ -31,10 +21,21 @@ class AuctionSocket
     
     attr_reader :env
     
-    def socket_request?
+    def spawn_socket
+        socket = Faye::WebSocket.new env
+        socket.on :open do || # ovo :open je naziv EVENTA
+            socket.send "Hello"
+        end
+        
+        socket.on :message do |event|
+            socket.send event.data # ovo ce poslati - 3 2 113. 113 sam uneo kao cenu, 3 je proizvod a 2 je user. "bid" je komanda
+        end
+        
+        return socket
+    end
     
+    def socket_request?
         Faye::WebSocket.websocket? env 
         # proveravamo da li je request tipa websocket
-    
     end
 end
