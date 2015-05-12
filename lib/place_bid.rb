@@ -1,18 +1,24 @@
 class PlaceBid
 # ova klasa treba da hendluje svu logiku o postavljanju bidova
     
-    attr_reader :auction
+    attr_reader :auction, :status
     #na ovaj nacin ce biti public za napolje
     
     def initialize options
         @value = options[:value].to_f
-        @user_id = options[:user_id]
-        @auction_id = options[:auction_id]
+        @user_id = options[:user_id].to_i
+        @auction_id = options[:auction_id].to_i
     end
     
     def execute
         @auction = Auction.find @auction_id
         #na ovaj nacin ce biti public za napolje
+        
+        binding.pry #ovde stavljamo jer znamo da se ovo ne pokrece?!
+        if auction.ended? && auction.top_bid.user_id == @user_id
+            @status = :won
+            return false
+        end
         
         if @value <= auction.current_bid
         return false

@@ -57,8 +57,20 @@ class AuctionSocket
             socket.send "bidok"
             notify_outbids socket, tokens[2] # socket ubacujemo kao argument, da bi smo njega izfiltrilari, a ostale obavestili
         else
+            if service.status == :won
+                notify_auction_ended socket
+            else
             socket.send "underbid #{service.auction.current_bid}" #ovo je njegov workaround. ali ne mogu istu foru da uradim za bidok!
+            end
             # i moramo da obezbedimo da je auction dostupan
+        end
+    end
+    
+    def notify_auction_ended socket
+        socket.send "won"
+        
+        @clients.reject {|client| client == socket}.each do |client|
+        client.send "lost"
         end
     end
 
