@@ -69,13 +69,19 @@ class AuctionSocket
     def notify_auction_ended socket
         socket.send "won"
         
-        @clients.reject {|client| client == socket}.each do |client|
+        @clients.reject {|client| client == socket || !same_auction?(client,socket)}.each do |client|
+            # ovim dodavanjem treba da izbegnemo da saljemo svima koji su na tom soketu, nego da razdvojimo po proizvodima
         client.send "lost"
         end
     end
+    
+    def same_auction? other_socket, socket
+        other_socket.env["REQUEST_PATH"] == socket.env["REQUEST_PATH"]
+        # jer se prema ovom razlikuju
+    end
 
     def notify_outbids socket, value 
-        @clients.reject {|client| client == socket}.each do |client|
+        @clients.reject {|client| client == socket || !same_auction?(client,socket)}.each do |client|
         client.send "outbid #{value}"
         end
     end
